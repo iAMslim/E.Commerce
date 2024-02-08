@@ -1,0 +1,53 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Book {
+  id           Int      @id @default(autoincrement())
+  title        String
+  price        Float
+  description  String
+  content      String
+  inStock      Boolean
+  isPopular    Boolean
+  imgUrl       String
+  // Add other fields specific to books
+}
+model Customer {
+  id        Int      @id @default(autoincrement())
+  email     String
+  // Add more fields specific to customers
+}
+
+// User with username and password
+model User {
+  id        Int      @id @default(autoincrement())
+  username  String   @unique
+  password  String
+   administrators Administrator[]
+  // Add other fields specific to users
+}
+
+// Administrator with rights to fix user accounts
+model Administrator {
+  id        Int      @id @default(autoincrement())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int
+  // Add other fields specific to administrators
+}
+
+// Engineer with username and password to repair code and database
+model Engineer {
+  id        Int      @id @default(autoincrement())
+  username  String   @unique
+  password  String
+  // Add other fields specific to engineers
+}
