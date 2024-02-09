@@ -21,53 +21,50 @@ async function seed() {
         userId: 1,
         totalPrice: 50.25,
         isInCart: false,
-        status: "PENDING"
+        status: "PENDING",
       },
       {
         userId: 2,
         totalPrice: 82.99,
         isInCart: false,
-        status: "PENDING"
+        status: "PENDING",
       },
       {
         userId: 3,
         totalPrice: 46.99,
         isInCart: false,
-        status: "PENDING"
+        status: "PENDING",
       },
       {
         userId: 4,
         totalPrice: 32.99,
         isInCart: false,
-        status: "PENDING"
+        status: "PENDING",
       },
       {
         userId: 5,
         totalPrice: 16.99,
         isInCart: false,
-        status: "PENDING"
+        status: "PENDING",
       },
     ];
 
-  
-       
-        await prisma.order.createMany({
-          data: orders,
-        });
-    
-        console.log("Orders seeded.");
-    
-      
-        await prisma.user.createMany({
-          data: users,
-        });
-    
-        console.log("Users seeded.");
-      } catch (error) {
-        console.error("Error seeding database:", error);
-      } finally {
-        await prisma.$disconnect();
-      }
-    };
+    await prisma.order.createMany({
+      data: orders,
+    });
 
-    seed()
+    console.log("Orders seeded.");
+
+    await prisma.user.createMany({
+      data: users,
+    });
+
+    console.log("Users seeded.");
+  } catch (error) {
+    console.error("Error seeding database:", error);
+  } finally {
+    await prisma.$disconnect();
+  }
+}
+
+seed();
