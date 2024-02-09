@@ -3,69 +3,71 @@ const prisma = new PrismaClient();
 
 async function seed() {
   try {
-    // Generate sample users
+    // await prisma.user.deleteMany();
+    // console.log("Existing users deleted");
+
     const users = [
-      { username: "Andre_New", password: "andre123", isAdmin: true },
-      { username: "James_New", password: "james123", isAdmin: true },
-      { username: "Charles_New", password: "charles123", isAdmin: true },
-      { username: "Example_New", password: "example123", isAdmin: false },
-      { username: "Example1_New", password: "example123", isAdmin: false },
+      { username: "dre_New", password: "andre123", isAdmin: true },
+      { username: "Jameie_New", password: "james123", isAdmin: true },
+      { username: "Aaron_New", password: "example123", isAdmin: false },
+      { username: "Charles", password: "example123", isAdmin: false },
+      { username: "Rich", password: "example123", isAdmin: true },
     ];
 
-    // Create users in the database
-    const createdUsers = await prisma.user.createMany({
-      data: users,
-    });
+    console.log("Users seeded: 4");
 
-    console.log("Users seeded:", createdUsers.length);
-
-    // Generate sample orders
     const orders = [
       {
-        userId: createdUsers.find(user => user.username === "Andre_New").id,
+        userId: 1,
         totalPrice: 50.25,
-        status: "PENDING",
         isInCart: false,
+        status: "PENDING"
       },
       {
-        userId: createdUsers.find(user => user.username === "James_New").id,
+        userId: 2,
         totalPrice: 82.99,
-        status: "PROCESSING",
-        isInCart: true,
+        isInCart: false,
+        status: "PENDING"
       },
       {
-        userId: createdUsers.find(user => user.username === "Charles_New").id,
+        userId: 3,
         totalPrice: 46.99,
-        status: "SHIPPED",
         isInCart: false,
+        status: "PENDING"
       },
       {
-        userId: createdUsers.find(user => user.username === "Example_New").id,
+        userId: 4,
         totalPrice: 32.99,
-        status: "DELIVERED",
         isInCart: false,
+        status: "PENDING"
       },
       {
-        userId: createdUsers.find(user => user.username === "Example1_New").id,
+        userId: 5,
         totalPrice: 16.99,
-        status: "CANCELLED",
         isInCart: false,
+        status: "PENDING"
       },
     ];
 
-    // Create orders in the database
-    const createdOrders = await prisma.order.createMany({
-      data: orders,
-    });
+  
+       
+        await prisma.order.createMany({
+          data: orders,
+        });
+    
+        console.log("Orders seeded.");
+    
+      
+        await prisma.user.createMany({
+          data: users,
+        });
+    
+        console.log("Users seeded.");
+      } catch (error) {
+        console.error("Error seeding database:", error);
+      } finally {
+        await prisma.$disconnect();
+      }
+    };
 
-    console.log("Orders seeded:", createdOrders.length);
-
-    console.log("Database seeding completed.");
-  } catch (error) {
-    console.error("Error seeding database:", error);
-  } finally {
-    await prisma.$disconnect(); // Disconnect from the database
-  }
-}
-
-seed();
+    seed()
