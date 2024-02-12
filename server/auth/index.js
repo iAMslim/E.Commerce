@@ -14,6 +14,7 @@ router.post("/register", async (req, res, next) => {
         data: {
           username: req.body.username,
           password: hashedPassword,
+          isAdmin: true
         },
       });
       // Create a token with the user id

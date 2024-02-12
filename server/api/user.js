@@ -1,6 +1,15 @@
 const router = require("express").Router();
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
+const bcrypt = require("bcrypt");
+
+// Deny access if user is not logged in
+router.use((req, res, next) => {
+  if (!req.user) {
+    return res.status(401).send("You must be logged in to do that.");
+  }
+  next();
+});
 
 // GET all users
 router.get("/", async (req, res) => {
@@ -31,11 +40,15 @@ router.get("/:id", async (req, res) => {
 });
 
 // POST create new user
-router.post("/", async (req, res) => {
-  const { totalPrice, userId, status, isInCart } = req.body;
+router.post("/register", async (req, res, next) => {
   try {
+    const salt = await bcrypt.genSalt(5)
+    const hashedPassword = await bcrypt.hash(req.body.password, salt);
     const user = await prisma.user.create({
-      data: { totalPrice, userId, status, isInCart },
+      data: { 
+        username: req.body.username,
+        password: hashedPassword,
+       },
     });
     res.json(user);
   } catch (error) {
@@ -47,11 +60,21 @@ router.post("/", async (req, res) => {
 // PUT update user by ID
 router.put("/:id", async (req, res) => {
   const { id } = req.params;
-  const { totalPrice, userId, status, isInCart } = req.body;
-  try {
+  const { username, password } = req.body;
+
+  try {// Check if password is provided and hash it
+    let hashedPassword;
+    if (password) {
+      const salt = await bcrypt.genSalt(10); // Increase salt rounds for better security
+      hashedPassword = await bcrypt.hash(password, salt);
+    }
     const updatedUsers = await prisma.user.update({
       where: { id: parseInt(id) },
-      data: { totalPrice, userId, status, isInCart },
+      data: {
+        username: req.body.username,
+        ...(password && 
+          { password: hashedPassword }),
+      },
     });
     res.json(updatedUsers);
   } catch (error) {
