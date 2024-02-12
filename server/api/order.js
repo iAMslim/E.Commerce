@@ -33,7 +33,12 @@ router.post('/', async (req, res) => {
   const { totalPrice, userId, status, isInCart } = req.body;
   try {
     const order = await prisma.order.create({
-      data: { totalPrice, userId, status, isInCart },
+      data: { 
+        totalPrice, 
+        userId, 
+        status, 
+        isInCart 
+      },
     });
     res.json(order);
   } catch (error) {
