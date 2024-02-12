@@ -59,7 +59,7 @@ router.post("/", async (req, res) => {
 //add in to where only admin can update books
 router.put("/:id", async (req, res) => {
   const { id } = req.params; 
-  const { isAdmin } = req.user; // Assuming you have some way to determine if the user is an admin, e.g., from authentication middleware
+  const { isAdmin } = req.user;
 
   if (!isAdmin) {
     return res.status(403).json({ error: "Unauthorized" });
