@@ -27,8 +27,8 @@ app.use((req, res, next) => {
 });
 
 // Routes for backend
-app.use("/auth", require("./server/auth"));
-app.use("/api", require("./server/api"));
+app.use("/auth", require("./auth"));
+app.use("/api", require("./api"));
 
 // Start the server
 const PORT = process.env.PORT || 3000;

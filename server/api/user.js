@@ -4,12 +4,12 @@ const prisma = new PrismaClient();
 const bcrypt = require("bcrypt");
 
 // Deny access if user is not logged in
-router.use((req, res, next) => {
-  if (!req.user) {
-    return res.status(401).send("You must be logged in to do that.");
-  }
-  next();
-});
+// router.use((req, res, next) => {
+//   if (!req.user) {
+//     return res.status(401).send("You must be logged in to do that.");
+//   }
+//   next();
+// });
 
 // GET all users
 router.get("/", async (req, res) => {
@@ -65,7 +65,7 @@ router.put("/:id", async (req, res) => {
   try {// Check if password is provided and hash it
     let hashedPassword;
     if (password) {
-      const salt = await bcrypt.genSalt(10); // Increase salt rounds for better security
+      const salt = await bcrypt.genSalt(10); 
       hashedPassword = await bcrypt.hash(password, salt);
     }
     const updatedUsers = await prisma.user.update({
