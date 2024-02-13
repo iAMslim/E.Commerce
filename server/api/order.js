@@ -2,6 +2,14 @@ const router = require("express").Router()
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
+// Deny access if user is not logged in
+router.use((req, res, next) => {
+  if (!req.user) {
+    return res.status(401).send("You must be logged in to do that.");
+  }
+  next();
+});
+
 // GET all orders
 router.get('/', async (req, res) => {
   try {
@@ -32,6 +40,7 @@ router.get('/:id', async (req, res) => {
 router.post('/', async (req, res) => {
   const { totalPrice, userId, status, isInCart } = req.body;
   try {
+    // const totalPrice =
     const order = await prisma.order.create({
       data: { 
         totalPrice, 

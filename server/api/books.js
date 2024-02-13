@@ -32,6 +32,12 @@ router.get("/:id", async (req, res) => {
 
 // POST create new book
 router.post("/", async (req, res) => {
+  const { isAdmin } = req.username;
+
+  if (!isAdmin) {
+    return res.status(403).json({ error: "Unauthorized" });
+  }
+  
   try {
     const inStock = true;
     const isPopular = false;
@@ -59,7 +65,7 @@ router.post("/", async (req, res) => {
 //add in to where only admin can update books
 router.put("/:id", async (req, res) => {
   const { id } = req.params; 
-  const { isAdmin } = req.user;
+  const { isAdmin } = req.username;
 
   if (!isAdmin) {
     return res.status(403).json({ error: "Unauthorized" });
@@ -87,6 +93,11 @@ router.put("/:id", async (req, res) => {
 // DELETE book by ID
 router.delete("/:id", async (req, res) => {
   const { id } = req.params;
+  const { isAdmin } = req.username;
+
+  if (!isAdmin) {
+    return res.status(403).json({ error: "Unauthorized" });
+  }
   try {
     await prisma.book.delete({ where: { id: parseInt(id) } });
     res.json({ message: "book deleted successfully" });
