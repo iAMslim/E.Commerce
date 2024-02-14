@@ -20,7 +20,7 @@ model Book {
   isPopular    Boolean
   imgUrl       String
   orderItems   OrderItem[]
-  cart         Cart? @relation(fields: [id], references: [id])
+  cart         Cart[]
   // Add other fields specific to books
 }
 
