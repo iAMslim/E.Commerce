@@ -14,10 +14,10 @@ router.use((req, res, next) => {
 router.get("/", async (req, res) => {
   try {
     //admin is only authorized to get all palced orders
-    const isAdmin = req.user.isAdmin;
-    if (!isAdmin) {
-      return res.status(403).json({ error: "Unauthorized" });
-    }
+    // const isAdmin = req.user.isAdmin;
+    // if (!isAdmin) {
+    //   return res.status(403).json({ error: "Unauthorized" });
+    // }
     const orders = await prisma.order.findMany();
     res.json(orders);
   } catch (error) {
@@ -69,11 +69,11 @@ router.put("/:id", async (req, res) => {
   const { id } = req.params;
   const { totalPrice, userId, status, isInCart } = req.body;
   try {
-    //admin is only authorized to update palced orders
-    const isAdmin = req.user.isAdmin;
-    if (!isAdmin) {
-      return res.status(403).json({ error: "Unauthorized" });
-    }
+    // //admin is only authorized to update palced orders
+    // const isAdmin = req.user.isAdmin;
+    // if (!isAdmin) {
+    //   return res.status(403).json({ error: "Unauthorized" });
+    // }
     const updatedOrder = await prisma.order.update({
       where: { id: parseInt(id) },
       data: {
@@ -95,11 +95,11 @@ router.delete("/:id", async (req, res) => {
   const { id } = req.params;
   try {
     //admin is only authorized to delete placed orders
-    const isAdmin = req.user.isAdmin;
+    // const isAdmin = req.user.isAdmin;
 
-    if (!isAdmin) {
-      return res.status(403).json({ error: "Unauthorized" });
-    }
+    // if (!isAdmin) {
+    //   return res.status(403).json({ error: "Unauthorized" });
+    // }
     await prisma.order.delete({
       where: { id: parseInt(id) },
     });

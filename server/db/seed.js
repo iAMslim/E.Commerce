@@ -3,8 +3,8 @@ const prisma = new PrismaClient();
 
 async function seed() {
   try {
-    // await prisma.user.deleteMany();
-    // console.log("Existing users deleted");
+  //   await prisma.user.deleteMany();
+  //   console.log("Existing users deleted");
 
     // Seeding users
     // const users = await prisma.user.createMany({
@@ -21,11 +21,11 @@ async function seed() {
     // Seeding orders
     await prisma.order.createMany({
       data: [
-        { userId: 26, totalPrice: 50.25, isInCart: false, status: "PENDING" },
-        { userId: 27, totalPrice: 82.99, isInCart: false, status: "PENDING" },
-        { userId: 29, totalPrice: 46.99, isInCart: false, status: "PENDING" },
-        { userId: 30, totalPrice: 32.99, isInCart: false, status: "PENDING" },
-        { userId: 35, totalPrice: 16.99, isInCart: false, status: "PENDING" },
+        { userId: 1, totalPrice: 50.25, isInCart: false, status: "PENDING" },
+        { userId: 2, totalPrice: 82.99, isInCart: false, status: "PENDING" },
+        { userId: 3, totalPrice: 46.99, isInCart: false, status: "PENDING" },
+        { userId: 4, totalPrice: 32.99, isInCart: false, status: "PENDING" },
+        { userId: 5, totalPrice: 16.99, isInCart: false, status: "PENDING" },
       ],
     });
     console.log("Orders seeded.");
