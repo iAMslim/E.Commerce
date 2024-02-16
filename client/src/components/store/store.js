@@ -4,8 +4,8 @@ import booksSlice from "../slices/booksSlice"
 import authSlice from "../slices/authSlice";
 import userSlice from "../slices/userSlice";
 import ordersSlice from "../slices/ordersSlice";
-import cartSlice from "../slices/cart"
-
+import cartSlice from "../slices/cartSlice"
+// any reason why line 7 does not end with cartslice like all the above slices?
 
 const store = configureStore({
   reducer: {
