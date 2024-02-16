@@ -3,6 +3,7 @@ const cors = require("cors");
 const morgan = require("morgan");
 const app = express();
 const jwt = require("jsonwebtoken");
+const path = require('path')
 
 //Middleware for logging
 app.use(morgan("dev"));
@@ -24,6 +25,14 @@ app.use((req, res, next) => {
   }
 
   next();
+});
+
+// Serve static files from the 'frontend/build' directory
+app.use(express.static(path.join(__dirname, 'frontend', 'build')));
+
+// Define a route to serve the 'index.html' file for any other requests
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'frontend', 'build', 'index.html'));
 });
 
 // Routes for backend
