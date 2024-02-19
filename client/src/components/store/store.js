@@ -1,23 +1,33 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { api } from "../api/api";
-import booksSlice from "../slices/booksSlice"
-import authSlice from "../slices/authSlice";
-import userSlice from "../slices/userSlice";
-import ordersSlice from "../slices/ordersSlice";
-import cartSlice from "../slices/cartSlice"
-// any reason why line 7 does not end with cartslice like all the above slices?
+import { BookApi } from "../api/BookApi";
+import { CartApi } from "../api/CartApi";
+import { OrderApi } from "../api/OrderApi";
+import { UserApi } from "../api/UserApi";
+import booksSlice from "../slices/BooksSlice";
+import authSlice from "../slices/AuthSlice";
+import userSlice from "../slices/UserSlice";
+import ordersSlice from "../slices/OrdersSlice";
+import cartSlice from "../slices/CartSlice";
 
 const store = configureStore({
   reducer: {
-    [api.reducerPath]: api.reducer,
-    auth: authSlice,
-    books: booksSlice,
-    orders: ordersSlice,
-    users: userSlice,
-    cart: cartSlice,
+    booksSlice,
+    authSlice,
+    userSlice,
+    ordersSlice,
+    cartSlice,
+    [BookApi.reducerPath]: BookApi.reducer,
+    [CartApi.reducerPath]: CartApi.reducer,
+    [OrderApi.reducerPath]: OrderApi.reducer,
+    [UserApi.reducerPath]: UserApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(api.middleware),
+    getDefaultMiddleware().concat(
+      BookApi.middleware,
+      CartApi.middleware,
+      OrderApi.middleware,
+      UserApi.middleware
+    ),
 });
 
 export default store;
