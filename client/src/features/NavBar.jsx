@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { Box, AppBar, Toolbar, Button } from "@mui/material";
-import CartBadge from "./CartBadge";
+// import CartBadge from "./CartBadge";
 
 export default function NavBar() {
   //   const { token } = useSelector((state) => state.authSlice);
@@ -34,7 +34,6 @@ export default function NavBar() {
           <Button color="inherit" onClick={() => nav("/auth")}>
             Admin
           </Button>
-          <CartBadge />
         </Toolbar>
       </AppBar>
     </Box>
