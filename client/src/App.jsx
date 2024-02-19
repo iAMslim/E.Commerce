@@ -2,15 +2,14 @@ import React from "react";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Route, Routes } from "react-router";
-import Books from "../src/features/Books";
-// import SingleBook from "./features/SingleBook";
-// import Cart from "./features/Cart";
-// import Home from "../src/features/Home";
-// import Login from "../src/features/Login";
-import NavBar from "../src/features/NavBar";
-// import { setToken } from "./components/slices/AuthSlice"
-// import Register from "../src/features/Register";
-// import { useGetAllBooksQuery } from "./components/api/BookApi";
+import Books from "./features/Books";
+import SingleBook from "./features/SingleBook";
+import Cart from "./features/Cart";
+import Home from "../src/features/Home";
+import Login from "../src/features/Login";
+import NavBar from "./features/NavBar";
+import Register from "../src/features/Register";
+import { useGetAllBooksQuery } from "./components/api/BookApi";
 
 const App = () => {
   const [books, setBooks] = useState([]);
