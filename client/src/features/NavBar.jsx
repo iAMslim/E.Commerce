@@ -17,7 +17,7 @@ export default function NavBar() {
             edge="start"
             onClick={() => nav("/")}
           >
-            Grocery Store
+           Book Store
           </Button>
           <Button color="inherit" onClick={() => nav("/books")}>
             Books
