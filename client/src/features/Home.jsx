@@ -1,25 +1,22 @@
-import { Button } from "@mui/material";
-import { useNavigate } from "react-router";
+import React from "react";
+import { useUserInfoQuery } from "../components/api/AuthApi";
+import { useGetUserByIdQuery } from "../components/api/UserApi";
 
-export default function Home() {
-  const { users, token } = useSelector((state) => state.authSlice);
-  // console.log(users, token);
-  // console.log(users);
+function Home() {
+  const { data: users } = useGetUserByIdQuery();
 
   return (
     <div>
-      <Navigation></Navigation>
       {users && (
         <div className="user-detail">
           <h2>Account Details </h2>
-          <hr/>
+          <hr />
           <h4>Id: {users.id}</h4>
-          <h4>First Name: {users.firstname}</h4>
-          <h4>Last Name: {users.lastname}</h4>
-          <h4>Email: {users.email}</h4>
-          <h4>Password: {users.password}</h4>
+          <h4>First Name: {users.username}</h4>
         </div>
       )}
     </div>
   );
 }
+
+export default Home;

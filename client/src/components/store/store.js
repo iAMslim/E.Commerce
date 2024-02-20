@@ -3,6 +3,7 @@ import { BookApi } from "../api/BookApi";
 import { CartApi } from "../api/CartApi";
 import { OrderApi } from "../api/OrderApi";
 import { UserApi } from "../api/UserApi";
+import { AuthApi } from "../api/AuthApi";
 import booksSlice from "../slices/BooksSlice";
 import UserSlice from "../slices/UserSlice";
 import AuthSlice from "../slices/AuthSlice";
@@ -20,9 +21,11 @@ const store = configureStore({
     [CartApi.reducerPath]: CartApi.reducer,
     [OrderApi.reducerPath]: OrderApi.reducer,
     [UserApi.reducerPath]: UserApi.reducer,
+    [AuthApi.reducerPath]: AuthApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(
+      AuthApi.middleware,
       BookApi.middleware,
       CartApi.middleware,
       OrderApi.middleware,

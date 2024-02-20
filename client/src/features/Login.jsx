@@ -1,15 +1,15 @@
 import React, { useState } from "react";
-import { useLoginMutation } from "../components/api/UserApi";
+import { useLoginUserMutation } from "../components/api/AuthApi";
 import { useNavigate } from "react-router-dom";
 
-function LoginForm() {
-  const [data] = useLoginMutation();
+export default function LoginForm() {
+  const [data] = useLoginUserMutation();
+  const navigate = useNavigate()
   const [formData, setFormData] = useState({
     username: "",
     password: "",
   });
 
-  const navigate = useNavigate();
   const login = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -23,6 +23,8 @@ function LoginForm() {
     e.preventDefault();
     let info = await data(formData);
     console.log(info.formData);
+    console.log(data)
+    console.log(info)
 
     navigate("/home");
   };
@@ -46,5 +48,3 @@ function LoginForm() {
     </form>
   );
 }
-
-export default LoginForm;

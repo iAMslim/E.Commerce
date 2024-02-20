@@ -1,140 +1,68 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
-// import { Button, TextField } from "@mui/material";
-import { useCreateUserMutation } from "../components/api/UserApi";
-import { useDispatch } from "react-redux";
-import { setToken } from "../components/slices/AuthSlice";
+import React, { useState } from "react";
+import { useRegisterUserMutation } from "../components/api/AuthApi";
+// import { setToken } from "../components/slices/AuthSlice";
 
-const Register = () => {
-  const dispatch = useDispatch();
+export default function Register() {
+  const [newUser] = useRegisterUserMutation();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     username: "",
     password: "",
-    role: "user",
+    role: null,
   });
 
-  const { username, password, role } = formData;
+  const onChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const [createUser, { isLoading, isError }] = useCreateUserMutation();
-
-  const handleSubmit = async (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
 
-    // Submit form data to the server
-    //   try {
-    //     const response = await createUser(formData);
-    //     dispatch(registerSuccess(response.data));
-    //     navigate("/login"); // Redirect to login page after successful registration
-    //   } catch (error) {
-    //     console.error("error registering");
-    //   }
-    // };
-    try {
-      const response = await createUser(formData);
-
-      const { token, user } = response;
-
-      dispatch(setToken({ token, user, isAdmin: formData.role === "admin" }));
-      navigate("/login");
-      setFormData({
-        username: "",
-        password: "",
-        role: "user",
-      });
-    } catch (error) {
-      console.error("Registration error:", error);
-    }
+    const results = newUser(formData);
+    console.log(results);
+    console.log(formData)
+    navigate("/auth/login");
   };
 
   return (
-    <div className="register-form">
-      <h2>Register</h2>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="username">Username:</label>
-        <input
-          type="text"
-          id="username"
-          name="username"
-          value={username}
-          onChange={handleChange}
-          required
-        />
+    <div className="loginPage">
+      <form onSubmit={onSubmit} className="loginForm">
+        <h1 className="Header">Register Account</h1>
+        <div className="formDetails">
+          <input
+            type="text"
+            placeholder="Username"
+            variant="outlined"
+            name="username"
+            value={formData.username}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div>
+          <input
+            type="password"
+            placeholder="Password"
+            variant="outlined"
+            name="password"
+            value={formData.password}
+            onChange={handleChange}
+            required
+          />
+        </div>
 
-        <label htmlFor="password">Password:</label>
-        <input
-          type="password"
-          id="password"
-          name="password"
-          value={password}
-          onChange={handleChange}
-          required
-        />
-        <label htmlFor="role">Role:</label>
-        <select
-          id="role"
-          name="role"
-          value={formData.role}
-          onChange={handleChange}
-        >
-          <option value="user">User</option>
-          <option value="admin">Admin</option>
-        </select>
-        <button type="submit" disabled={isLoading}>
-          {isLoading ? "Registering..." : "Register"}
+        <button type="submit" className="btn btn-primary mb-2">
+          Sign Up
         </button>
-
-        {isError && <p>Error: {isError.message}</p>}
+        <p>
+          Have an account? <Link to="auth/login">Login</Link>
+        </p>
       </form>
-      <p>
-        Already have an account? <Link to="/login">Login</Link>
-      </p>
     </div>
   );
-};
-//   return (
-//     <div>
-//       <h1>Sign Up</h1>
-//       {error && <div style={{ color: "red" }}>{error}</div>}
-//       <form onSubmit={handleSubmit}>
-//         <div>
-//           <TextField
-//             type="text"
-//             label="Username"
-//             variant="outlined"
-//             name="username"
-//             value={formData.username}
-//             onChange={handleChange}
-//             fullWidth
-//             required
-//           />
-//         </div>
-//         <div>
-//           <TextField
-//             type="password"
-//             label="Password"
-//             variant="outlined"
-//             name="password"
-//             value={formData.password}
-//             onChange={handleChange}
-//             fullWidth
-//             required
-//           />
-//         </div>
-
-//         <Button variant="contained" type="submit">
-//           Sign Up
-//         </Button>
-//       </form>
-//       <p>
-//         Have an account? <Link to="/login">Login</Link>
-//       </p>
-//     </div>
-//   );
-// };
-
-export default Register;
+}
