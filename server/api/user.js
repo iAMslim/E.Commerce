@@ -24,10 +24,11 @@ router.get("/", async (req, res) => {
 
 // GET user by ID
 router.get("/:id", async (req, res) => {
-  const { id } = req.params;
   try {
     const user = await prisma.user.findUnique({
-      where: { id: parseInt(id) },
+      where: {
+        id: Number(req.params.id),
+      },
     });
     if (!user) {
       return res.status(404).json({ error: "user not found" });
@@ -40,15 +41,15 @@ router.get("/:id", async (req, res) => {
 });
 
 // POST create new user
-router.post("/register", async (req, res, next) => {
+router.post("/", async (req, res, next) => {
   try {
-    const salt = await bcrypt.genSalt(5)
+    const salt = await bcrypt.genSalt(5);
     const hashedPassword = await bcrypt.hash(req.body.password, salt);
     const user = await prisma.user.create({
-      data: { 
+      data: {
         username: req.body.username,
         password: hashedPassword,
-       },
+      },
     });
     res.json(user);
   } catch (error) {
@@ -59,21 +60,13 @@ router.post("/register", async (req, res, next) => {
 
 // PUT update user by ID
 router.put("/:id", async (req, res) => {
-  const { id } = req.params;
-  const { username, password } = req.body;
-
-  try {// Check if password is provided and hash it
-    let hashedPassword;
-    if (password) {
-      const salt = await bcrypt.genSalt(10); 
-      hashedPassword = await bcrypt.hash(password, salt);
-    }
+  try {
+    const { username, password } = req.body;
     const updatedUsers = await prisma.user.update({
       where: { id: parseInt(id) },
       data: {
-        username: req.body.username,
-        ...(password && 
-          { password: hashedPassword }),
+        username,
+        password,
       },
     });
     res.json(updatedUsers);
