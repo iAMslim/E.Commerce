@@ -37,8 +37,8 @@ const App = () => {
           <Route path={"api/books/:id"} element={<SingleBook />}></Route>
           <Route path={"api/cart"} element={<Cart />}></Route>
           <Route path={"/home"} element={<Home />}></Route>
-          <Route path={"api/login"} element={<Login />}></Route>
-          <Route path={"api/users/register"} element={<Register />}></Route>
+          <Route path={"auth/login"} element={<Login />}></Route>
+          <Route path={"auth/register"} element={<Register />}></Route>
         </Routes>
      
     </div>
@@ -47,36 +47,3 @@ const App = () => {
 
 export default App;
 
-// const App = () => {
-//   const [books, setBooks] = useState([]);
-
-//   useEffect(() => {
-//     axios
-//       .get("http://localhost:3000/api")
-//       .then((response) => {
-//         setBooks(response.data);
-//       })
-//       .catch((error) => {
-//         console.log(error);
-//       });
-//   });
-//   return (
-//     <>
-//       <h1>Vite + React</h1>
-//       <p>Books: {books.length}</p>
-
-// {
-//       books.map((book, index) => (
-//         <div key={book.id}>
-//           <h3>{book.title}</h3>
-//           <p>{book.description}</p>
-//           <p>{book.imgUrl}</p>
-//           <p>{book.inStock}</p>
-//         </div>
-//       ))
-//     }
-//     </>
-//   );
-// };
-
-// export default App;

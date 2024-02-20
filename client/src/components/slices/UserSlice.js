@@ -1,20 +1,39 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { UserApi } from "../api/UserApi";
 
-const storeUser = (state, { payload }) => {
-  state.user = payload; 
-  window.sessionStorage.setItem("user", JSON.stringify(payload));
-};
-
-
 const userSlice = createSlice({
   name: "user",
   initialState: {
-    user: JSON.parse(window.sessionStorage.getItem("user")) || null,
+    users: [],
+    user: null,
   },
+  reducers: {},
+
   extraReducers: (builder) => {
-    builder.addMatcher(UserApi.endpoints.register.matchFulfilled, storeUser);
-    builder.addMatcher(UserApi.endpoints.login.matchFulfilled, storeUser);
+    builder.addMatcher(
+      UserApi.endpoints.getAllUsers.matchFulfilled,
+      (state, { payload }) => {
+        return { ...state, user: payload };
+      }
+    );
+    builder.addMatcher(
+      UserApi.endpoints.getUserById.matchFulfilled,
+      (state, { payload }) => {
+        return { ...state, user: payload };
+      }
+    );
+    builder.addMatcher(
+      UserApi.endpoints.updateUser.matchFulfilled,
+      (state, { payload }) => {
+        state.users = state.users.map((user) => {
+          if (user.id === payload.user.id) {
+            return payload.user;
+          }
+          return user;
+        });
+        return state;
+      }
+    );
   },
 });
 

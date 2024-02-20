@@ -4,12 +4,12 @@ export const CartApi = createApi({
   reducerPath: "CartApi",
   baseQuery: fetchBaseQuery({
     baseUrl: import.meta.env.VITE_URL || "http://localhost:3000",
-    prepareHeaders: (headers, { getState }) => {
-      const token = getState().auth.token;
-      if (token) {
-        headers.set("authorization", `Bearer ${token}`);
-      }
-    },
+    // prepareHeaders: (headers, { getState }) => {
+    //   const token = getState().auth.token;
+    //   if (token) {
+    //     headers.set("authorization", `Bearer ${token}`);
+    //   }
+    // },
   }),
 
   endpoints: (builder) => ({
