@@ -4,38 +4,38 @@ export const UserApi = createApi({
   reducerPath: "UserApi",
   baseQuery: fetchBaseQuery({
     baseUrl: import.meta.env.VITE_URL || "http://localhost:3000",
-    prepareHeaders: (headers, { getState }) => {
-      const token = getState().auth.token;
-      if (token) {
-        headers.set("authorization", `Bearer ${token}`);
-      }
-    },
+    // prepareHeaders: (headers, { getState }) => {
+    //   // const token = getState().auth.token;
+    //   // if (token) {
+    //   //   headers.set("authorization", `Bearer ${token}`);
+    //   // }
+    // },
   }),
 
   endpoints: (builder) => ({
     getAllUsers: builder.query({
-      query: () => "/users",
+      query: () => "/api/users",
     }),
     getUserById: builder.query({
-      query: (id) => `/users/${id}`,
+      query: (id) => `/api/users/${id}`,
     }),
     deleteUser: builder.mutation({
       query: (id) => ({
-        url: `/users/${id}`,
+        url: `/api/users/${id}`,
         method: "DELETE",
       }),
     }),
     createUser: builder.mutation({
       query: (newUser) => ({
-        url: "/users",
+        url: "/api/users/register",
         method: "POST",
         body: newUser,
       }),
     }),
     updateUser: builder.mutation({
       query: ({ userId, updatedUser }) => ({
-        url: `/users/${userId}`,
-        method: "PUT",
+        url: `/api/users/${userId}`,
+        method: "PATCH",
         body: updatedUser,
       }),
     }),
@@ -69,7 +69,7 @@ export const UserApi = createApi({
     updateAuth: builder.mutation({
       query: ({ authId, updatedAuth }) => ({
         url: `/auth/${authId}`,
-        method: "PUT",
+        method: "PATCH",
         body: updatedAuth,
       }),
     }),

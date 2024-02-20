@@ -4,16 +4,16 @@ import { CartApi } from "../api/CartApi";
 import { OrderApi } from "../api/OrderApi";
 import { UserApi } from "../api/UserApi";
 import booksSlice from "../slices/BooksSlice";
-import authSlice from "../slices/AuthSlice";
-import userSlice from "../slices/UserSlice";
+import UserSlice from "../slices/UserSlice";
+import AuthSlice from "../slices/AuthSlice";
 import ordersSlice from "../slices/OrdersSlice";
 import cartSlice from "../slices/CartSlice";
 
 const store = configureStore({
   reducer: {
     booksSlice,
-    authSlice,
-    userSlice,
+    AuthSlice,
+    UserSlice,
     ordersSlice,
     cartSlice,
     [BookApi.reducerPath]: BookApi.reducer,

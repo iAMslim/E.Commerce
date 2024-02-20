@@ -15,24 +15,24 @@ export default function NavBar() {
             variant="h6"
             component="div"
             edge="start"
-            onClick={() => nav("/")}
+            onClick={() => nav("/api/books")}
           >
            Book Store
           </Button>
-          <Button color="inherit" onClick={() => nav("/books")}>
-            Books
+          <Button color="inherit" onClick={() => nav('api/books/')}>
+            Book
           </Button>
-          <Button color="inherit" onClick={() => nav("/cart")}>
+          <Button color="inherit" onClick={() => nav("api/cart")}>
             Cart
           </Button>
-          <Button color="inherit" onClick={() => nav("/login")}>
+          <Button color="inherit" onClick={() => nav("api/login")}>
             Login
           </Button>
-          <Button color="inherit" onClick={() => nav("/users")}>
+          <Button color="inherit" onClick={() => nav("/home")}>
             My Account
           </Button>
-          <Button color="inherit" onClick={() => nav("/auth")}>
-            Admin
+          <Button color="inherit" onClick={() => nav("api/users/register")}>
+            Register
           </Button>
         </Toolbar>
       </AppBar>

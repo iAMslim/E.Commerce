@@ -1,57 +1,73 @@
-import { useNavigate } from "react-router-dom";
-import { useParams } from "react-router";
+import React, { useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+// import { useSelector, useDispatch } from "react-redux";
 import { useGetBookByIdQuery } from "../components/api/BookApi";
-import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
-import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import NavBar from "./NavBar";
 
-function SingleBook() {
-  const nav = useNavigate();
-  const params = useParams();
-  const { data, isLoading } = useGetBookByIdQuery(params.id);
+const SingleBook = () => {
+  const { id } = useParams();
+  // const navigate = useNavigate();
+  // const dispatch = useDispatch();
+  const { data: book, isLoading, isError } = useGetBookByIdQuery(id);
+
+  let bookDetails = null;
+
+  if (isLoading) {
+    bookDetails = <div>Loading...</div>;
+  } else if (isError) {
+    bookDetails = <div>Error: Unable to fetch book details</div>;
+  } else if (book) {
+    const { name, price, description } = book;
+
+    bookDetails = (
+      <div>
+        <h2>{name}</h2>
+        <p>Price: {price}</p>
+        <p>Description: {description}</p>
+      </div>
+    );
+  }
 
   return (
-    <>
-      <div>
-        {isLoading ? (
-          <h1>Loading Book...</h1>
-        ) : (
-          <div>
-            <div>
-              <NavBar />
-            </div>
-            <Card sx={{ maxWidth: 750 }}>
-              <CardMedia
-                sx={{ height: 450 }}
-                image={data.imageUrl}
-                alt={data.name}
-              />
-              <CardContent>
-                <Typography gutterBottom variant="h5" component="div">
-                  {data.name}
-                </Typography>
-                <Typography>{data.price}</Typography>
-                <Typography gutterBottom>In Stock: {data.inStock}</Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {data.description}
-                </Typography>
-              </CardContent>
-              <CardActions>
-                <Button size="small" onClick={() => nav(-1)}>
-                  Go Back
-                </Button>
-                <Button size="small">Add to Cart</Button>
-              </CardActions>
-            </Card>
-          </div>
-        )}
-      </div>
+  <>
+    <Navigation></Navigation>
+    <div>
+    {bookDetails}
+    </div>;
     </>
-  );
-}
+  )
+};
 
 export default SingleBook;
+
+//   useEffect(() => {
+//     dispatch(useGetBookByIdQuery(id));
+//   }, [dispatch, id]);
+
+//   if (loading) {
+//     return <div>Loading...</div>;
+//   }
+
+//   if (error) {
+//     return <div>Error: {error}</div>;
+//   }
+
+//   return (
+//     <div className="book-details">
+//       <div className="book-card">
+//         <img
+//           onClick={() => navigate(`/books`)}
+//           src={book?.coverimage}
+//           alt={book?.title}
+//           className="book-image"
+//         />
+//         <div className="book-details">
+//           <h2>Price: {book?.price}</h2>
+//           <p>Title: {book?.title}</p>
+//           <p>Description: {book?.description}</p>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default SingleBook;
