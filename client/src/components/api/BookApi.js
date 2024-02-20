@@ -9,33 +9,38 @@ export const BookApi = createApi({
       if (token) {
         headers.set("authorization", `Bearer ${token}`);
       }
+      return headers
     },
   }),
 
   endpoints: (builder) => ({
     getAllBooks: builder.query({
-      query: () => "/books",
+      query: () => "api/books",
     }),
     getBookById: builder.query({
-      query: (id) => "/books/" + id,
+      query: (id) => "api/books/" + id,
     }),
     deleteBook: builder.mutation({
       query: (id) => ({
-        url: `/books/${id}`,
+        url: `api/books/${id}`,
         method: "DELETE",
       }),
     }),
     createBook: builder.mutation({
       query: (newBook) => ({
-        url: "/books",
+        url: "api/books",
         method: "POST",
         body: newBook,
       }),
     }),
     updateBook: builder.mutation({
-      query: ({ bookId, updatedBook }) => ({
-        url: `/books/${bookId}`,
-        method: "PUT",
+      query: ({ bookId, updatedBook, token }) => ({
+        url: `api/books/${bookId}`,
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
         body: updatedBook,
       }),
     }),

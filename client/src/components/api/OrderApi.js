@@ -14,27 +14,27 @@ export const OrderApi = createApi({
 
   endpoints: (builder) => ({
     getAllOrders: builder.query({
-      query: () => "/orders",
+      query: () => "api/orders",
     }),
     getOrderById: builder.query({
-      query: (id) => `/orders/${id}`,
+      query: (id) => `api/orders/${id}`,
     }),
     deleteOrder: builder.mutation({
       query: (id) => ({
-        url: `/orders/${id}`,
+        url: `api/orders/${id}`,
         method: "DELETE",
       }),
     }),
     createOrder: builder.mutation({
       query: (newOrder) => ({
-        url: "/orders",
+        url: "api/orders",
         method: "POST",
         body: newOrder,
       }),
     }),
     updateOrder: builder.mutation({
       query: ({ orderId, updatedOrder }) => ({
-        url: `/orders/${orderId}`,
+        url: `api/orders/${orderId}`,
         method: "PUT",
         body: updatedOrder,
       }),

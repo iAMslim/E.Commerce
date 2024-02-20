@@ -1,66 +1,48 @@
-import { useState } from 'react';
+import React, { useState } from "react";
+import { useLoginMutation } from "../components/api/UserApi";
+import { useNavigate } from "react-router-dom";
 
 function LoginForm() {
+  const [data] = useLoginMutation();
   const [formData, setFormData] = useState({
-    username: '',
-    password: '',
+    username: "",
+    password: "",
   });
-  const [error, setError] = useState('');
 
+  const navigate = useNavigate();
+  const login = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+    console.log(e.target);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    let info = await data(formData);
+    console.log(info.formData);
 
-    try {
-      const response = await fetch('/api/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to login');
-      }
-
-      // Reset form data and handle success
-      setFormData({ username: '', password: '' });
-      setError('');
-      // Redirect or update UI as needed
-    } catch (error) {
-      setError(error.message || 'An error occurred');
-    }
+    navigate("/home");
   };
 
   return (
     <form onSubmit={handleSubmit}>
+      <h2>Login</h2>
       <div>
-        <input
-          type="text"
-          name="username"
-          value={formData.username}
-          onChange={handleChange}
-          placeholder="Username"
-          required
-        />
+        <label htmlFor="username">Username:</label>
+
+        <input type="text" id="username" name="username" onChange={login} />
       </div>
+
       <div>
-        <input
-          type="password"
-          name="password"
-          value={formData.password}
-          onChange={handleChange}
-          placeholder="Password"
-          required
-        />
+        <label htmlFor="password">Password:</label>
+
+        <input type="password" id="password" name="password" onChange={login} />
       </div>
+
       <button type="submit">Login</button>
-      {error && <div>{error}</div>}
     </form>
   );
 }

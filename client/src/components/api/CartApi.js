@@ -14,27 +14,27 @@ export const CartApi = createApi({
 
   endpoints: (builder) => ({
   getAllCarts: builder.query({
-    query: () => "/cart",
+    query: () => "api/cart",
   }),
   getCartById: builder.query({
-    query: (id) => `/cart/${id}`,
+    query: (id) => `api/cart/${id}`,
   }),
   deleteCart: builder.mutation({
     query: (id) => ({
-      url: `/cart/${id}`,
+      url: `api/cart/${id}`,
       method: "DELETE",
     }),
   }),
   createCart: builder.mutation({
     query: (newCart) => ({
-      url: "/cart",
+      url: "api/cart",
       method: "POST",
       body: newCart,
     }),
   }),
   updateCart: builder.mutation({
     query: ({ cartId, updatedCart }) => ({
-      url: `/cart/${cartId}`,
+      url: `api/cart/${cartId}`,
       method: "PUT",
       body: updatedCart,
     }),
