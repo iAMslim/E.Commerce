@@ -25,11 +25,12 @@ router.get("/", async (req, res) => {
 // GET user by ID
 router.get("/:id", async (req, res) => {
   try {
-    const user = await prisma.user.findUnique({
+    const { id } = req.params;
+    const user = await prisma.user.findFirst({
       where: {
-        id: Number(req.params.id),
-      },
-    });
+        id: parseInt(id)
+      }
+    })
     if (!user) {
       return res.status(404).json({ error: "user not found" });
     }
