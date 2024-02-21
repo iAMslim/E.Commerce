@@ -29,7 +29,7 @@ router.post("/login", async (req, res, next) => {
   try {
     if (!req.body.username)
       return res.status(401).send("Invalid login credentials");
-    const login = await prisma.user.findFirst({
+    const user = await prisma.user.findFirst({
       where: {
         username: req.body.username,
       },
@@ -37,13 +37,13 @@ router.post("/login", async (req, res, next) => {
 
     if (user.username !== req.body.username)
       return res.status(401).send("Invalid credentials, try again");
-    const match = await bcrypt.compare(req.body.password, login?.password);
+    const match = await bcrypt.compare(req.body.password, user?.password);
     if (!match) {
       return res.status(401).send("try credentials again");
     }
 
-    const token = jwt.sign({ id: login.id }, process.env.JWT);
-    res.send({ token, user: { id: login.id } });
+    const token = jwt.sign({ id: user.id }, process.env.JWT);
+    res.send({ token, user: { id: user.id } });
   } catch (error) {
     next(error);
   }

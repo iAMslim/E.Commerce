@@ -32,8 +32,8 @@ export default function NavBar() {
           >
             Book Store
           </Button>
-          <Button color="inherit" onClick={() => nav("api/books/{$id}")}>
-            Book
+          <Button color="inherit" onClick={() => nav("/auth/me")}>
+            My Account
           </Button>
           <Button color="inherit" onClick={() => nav("api/cart")}>
             Cart
