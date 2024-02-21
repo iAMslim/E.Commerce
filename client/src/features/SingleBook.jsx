@@ -1,73 +1,57 @@
 import React, { useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-// import { useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useGetBookByIdQuery } from "../components/api/BookApi";
+// import { clearBook } from "../components/slices/BooksSlice";
 
 const SingleBook = () => {
   const { id } = useParams();
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   // const dispatch = useDispatch();
-  const { data: book, isLoading, isError } = useGetBookByIdQuery(id);
+  
+const { books, book } = useSelector((state) => state.booksSlice)
+console.log("hello", books)
 
-  let bookDetails = null;
+let data = []
+if (!books.length) {
+  useGetBookByIdQuery(id)
+  data.push(book)
+} else {
+  data = books.filter((books) => books.id === Number(id))
+}
 
-  if (isLoading) {
-    bookDetails = <div>Loading...</div>;
-  } else if (isError) {
-    bookDetails = <div>Error: Unable to fetch book details</div>;
-  } else if (book) {
-    const { name, price, description } = book;
+  // useEffect(() => {
+  //   dispatch(useGetBookByIdQuery(id));
+  //   return () => {
+  //     dispatch(clearBook()); // Clear book data when component unmounts
+  //   };
+  // }, [dispatch, id]);
 
-    bookDetails = (
-      <div>
-        <h2>{name}</h2>
-        <p>Price: {price}</p>
-        <p>Description: {description}</p>
+
+
+  // if (!book) {
+  //   return <div>Loading...</div>;
+  // }
+
+  return data[0] ? (
+    <div className="book-details">
+      <div className="book-card">
+        <img
+          onClick={() => navigate(`/books`)}
+          src={data[0].imgUrl}
+          alt={data[0].title}
+          className="book-image"
+        />
+        <div className="book-details">
+          <h2>Author: {data[0].author}</h2>
+          <p>Title: {data[0].title}</p>
+          <p>Description: {data[0].description}</p>
+        </div>
       </div>
-    );
-  }
-
-  return (
-  <>
-    <Navigation></Navigation>
-    <div>
-    {bookDetails}
-    </div>;
-    </>
-  )
+    </div>
+  ) : (
+    <div>Loading...</div>
+  );
 };
 
 export default SingleBook;
-
-//   useEffect(() => {
-//     dispatch(useGetBookByIdQuery(id));
-//   }, [dispatch, id]);
-
-//   if (loading) {
-//     return <div>Loading...</div>;
-//   }
-
-//   if (error) {
-//     return <div>Error: {error}</div>;
-//   }
-
-//   return (
-//     <div className="book-details">
-//       <div className="book-card">
-//         <img
-//           onClick={() => navigate(`/books`)}
-//           src={book?.coverimage}
-//           alt={book?.title}
-//           className="book-image"
-//         />
-//         <div className="book-details">
-//           <h2>Price: {book?.price}</h2>
-//           <p>Title: {book?.title}</p>
-//           <p>Description: {book?.description}</p>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default SingleBook;
