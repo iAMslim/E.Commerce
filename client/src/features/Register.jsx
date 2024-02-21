@@ -9,7 +9,7 @@ export default function Register() {
   const [formData, setFormData] = useState({
     username: "",
     password: "",
-    role: null,
+    role: "user",
   });
 
   const onChange = (e) => {
@@ -60,7 +60,7 @@ export default function Register() {
           Sign Up
         </button>
         <p>
-          Have an account? <Link to="auth/login">Login</Link>
+          Have an account? <Link to="/auth/login">Login</Link>
         </p>
       </form>
     </div>

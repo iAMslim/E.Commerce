@@ -14,16 +14,6 @@ import { useGetAllBooksQuery } from "./components/api/BookApi";
 const App = () => {
   const [books, setBooks] = useState([]);
 
-  useEffect(() => {
-    axios
-      .get("http://localhost:3000/api/books")
-      .then((response) => {
-        setBooks(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  });
 
   return (
     <div>
