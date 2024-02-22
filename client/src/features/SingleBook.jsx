@@ -7,10 +7,9 @@ import { useGetBookByIdQuery } from "../components/api/BookApi";
 const SingleBook = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  // const dispatch = useDispatch();
   
-const { books, book } = useSelector((state) => state.booksSlice)
-console.log("hello", books)
+  
+const { books, book } = useSelector((state) => state.BooksSlice)
 
 let data = []
 if (!books.length) {
@@ -20,24 +19,11 @@ if (!books.length) {
   data = books.filter((books) => books.id === Number(id))
 }
 
-  // useEffect(() => {
-  //   dispatch(useGetBookByIdQuery(id));
-  //   return () => {
-  //     dispatch(clearBook()); // Clear book data when component unmounts
-  //   };
-  // }, [dispatch, id]);
-
-
-
-  // if (!book) {
-  //   return <div>Loading...</div>;
-  // }
-
   return data[0] ? (
     <div className="book-details">
       <div className="book-card">
         <img
-          onClick={() => navigate(`/books`)}
+          onClick={() => navigate(`/api/books`)}
           src={data[0].imgUrl}
           alt={data[0].title}
           className="book-image"

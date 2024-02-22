@@ -3,18 +3,22 @@ import { AuthApi } from "../api/AuthApi";
 
 const authSlice = createSlice({
   name: "authSlice",
-  initialState: { users: null, token: null },
+  initialState: {
+    users: [],
+    user: null,
+    token: null,
+  },
   reducers: {
     setToken: (state, action) => {
-      state.token = action.payload
+      state.token = action.payload;
       builder.addMatcher(
         AuthApi.endpoints.registerUser.matchFulfilled,
         (state, { payload }) => {
-          console.log(payload)
-          state.users = payload.user
-          state.token = payload.toekn
+          console.log(payload);
+          state.users = payload.user;
+          state.token = payload.toekn;
         }
-      )
+      );
       builder.addMatcher(
         AuthApi.endpoints.loginUser.matchFulfilled,
         (state, { payload }) => {
@@ -24,16 +28,16 @@ const authSlice = createSlice({
           console.log(state.token);
         }
       ),
-      builder.addMatcher(
-        AuthApi.endpoints.UserInfo.matchFulfilled,
-        (state, { payload }) => {
-          console.log(payload);
-          return { ...state, users: payload };
-        }
-      );
-  }},
-})
+        builder.addMatcher(
+          AuthApi.endpoints.userInfo.matchFulfilled,
+          (state, { payload }) => {
+            console.log(payload);
+            return { ...state, users: payload };
+          }
+        );
+    },
+  },
+});
 
 export default authSlice.reducer;
 export const { setToken } = authSlice.actions;
-
