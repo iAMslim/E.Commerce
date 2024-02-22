@@ -33,10 +33,6 @@ app.use((req, res, next) => {
 // Routes for backend
 app.use("/auth", require("./auth/index"));
 app.use("/api", require("./api/index"))
-// app.use("/orders", require("./api/order"))
-// app.use("/users", require("./api/user"))
-// app.use("/cart", require("./api/cart"))
-// app.use("/books", require("./api/books"))
 
 // Serve static files from the 'client' directory
 app.use(express.static("client"));

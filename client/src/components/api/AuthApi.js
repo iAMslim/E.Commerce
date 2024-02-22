@@ -30,7 +30,7 @@ export const AuthApi = createApi({
         body: updatedAuth,
       }),
     }),
-    UserInfo: builder.query({
+    userInfo: builder.query({
       query: (token) => ({
         url: "/auth/me",
         headers: {

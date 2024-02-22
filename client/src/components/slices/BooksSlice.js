@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { BookApi } from "../api/BookApi";
 
-const booksSlice = createSlice({
+const BooksSlice = createSlice({
   name: "books",
   initialState: {
     books: [],
@@ -33,7 +33,7 @@ const booksSlice = createSlice({
       (state, { payload }) => {
         return {
           ...state,
-          books: payload, // Assuming payload is an array of books
+          books: payload, 
           loading: false,
           error: null,
         };
@@ -48,7 +48,7 @@ export const {
   clearBook,
   setSearchQuery,
   clearSearchQuery,
-} = booksSlice.actions;
+} = BooksSlice.actions;
 export const selectSearchQuery = (state) => state.books.searchQuery;
 // export const selectBook = (state) => state.books.book;
-export default booksSlice.reducer;
+export default BooksSlice.reducer;

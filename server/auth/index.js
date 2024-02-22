@@ -4,6 +4,23 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 const bcrypt = require("bcrypt");
 
+const verifyToken = (req, res, next) => {
+  const token = req.headers.authorization;
+  if (!token) {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+
+  jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+    if (err) {
+      return res.status(401).json({ message: "Unauthorized" });
+    }
+    // Store the decoded token payload in the request object
+    req.user = decoded;
+    next();
+  });
+};
+
+
 //register
 router.post("/register", async (req, res, next) => {
   try {
@@ -50,11 +67,12 @@ router.post("/login", async (req, res, next) => {
 });
 
 // Get the currently logged in user
-router.get("/me", async (req, res, next) => {
+router.get("/me", verifyToken, async (req, res, next) => {
   try {
+    const userId = req.user.id;
     const user = await prisma.user.findFirst({
       where: {
-        id: req.user.id,
+        id: parseInt(userId)
       },
     });
 
