@@ -3,20 +3,20 @@ const prisma = new PrismaClient();
 
 async function seed() {
   try {
-    await prisma.user.deleteMany();
-    console.log("Existing users deleted");
+    // await prisma.user.deleteMany();
+    // console.log("Existing users deleted");
 
     // Seeding users
-    const users = await prisma.user.createMany({
-      data: [
-        { username: "dre", password: "andre123", isAdmin: true },
-        { username: "Jameie", password: "james123", isAdmin: true },
-        { username: "Aaron", password: "example123", isAdmin: false },
-        { username: "Charles_New", password: "example123", isAdmin: false },
-        { username: "Rich_New", password: "example123", isAdmin: true },
-      ],
-    });
-    console.log("Users seeded: 5", users);
+    // const users = await prisma.user.createMany({
+    //   data: [
+    //     { username: "dre", password: "andre123", isAdmin: true },
+    //     { username: "Jameie", password: "james123", isAdmin: true },
+    //     { username: "Aaron", password: "example123", isAdmin: false },
+    //     { username: "Charles_New", password: "example123", isAdmin: false },
+    //     { username: "Rich_New", password: "example123", isAdmin: true },
+    //   ],
+    // });
+    // console.log("Users seeded: 5", users);
 
     // Seeding orders
     await prisma.order.createMany({
